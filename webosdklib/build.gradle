@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'//jcenter bintray插件
+android {
+    compileSdkVersion 26
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0.0"
+
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    sourceSets {
+
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+
+    buildTypes {
+        debug {
+            zipAlignEnabled false
+            minifyEnabled false
+        }
+
+        beta {
+            debuggable true
+            zipAlignEnabled true
+            minifyEnabled false
+        }
+
+        release {
+            zipAlignEnabled true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+publish {
+    userOrg = 'bigclient' //binary用户名
+    repoName = 'maven'//binary仓库名
+    groupId = 'com.ex.sdk'//依赖名complie 'x.y.z'中的包名x
+    artifactId = 'Webo'//依赖名complie 'x.y.z'中的包名y
+    publishVersion = '1.0.0'//依赖名complie 'x.y.z'中的包名z
+    desc = '微博分享'//开源组件描述说明，可为空
+    website = ''//代码仓库地址，可不填
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
